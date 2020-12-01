@@ -43,6 +43,7 @@ import 'package:flutteradmotors/ui/user/phone/verify_phone/verify_phone_view.dar
 import 'package:flutteradmotors/ui/user/profile/profile_view.dart';
 import 'package:flutteradmotors/ui/user/register/register_view.dart';
 import 'package:flutteradmotors/ui/user/verify/verify_email_view.dart';
+import 'package:flutteradmotors/utils/global/global.dart';
 import 'package:flutteradmotors/utils/ps_progress_dialog.dart';
 import 'package:flutteradmotors/viewobject/api_status.dart';
 import 'package:flutteradmotors/viewobject/common/ps_value_holder.dart';
@@ -836,7 +837,7 @@ class _HomeViewState extends State<DashboardView>
                       ),
                       title:Text( Utils.getString(context, 'dashboard__home')),
                     ),
-                    BottomNavigationBarItem(
+                   if(GlobalAppRepo.isVendor) BottomNavigationBarItem(
                       icon: const Icon(Icons.category),
                       title: Text(Utils.getString(
                           context, 'dashboard__bottom_navigation_catogory')),

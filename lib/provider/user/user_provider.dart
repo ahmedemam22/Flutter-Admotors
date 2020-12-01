@@ -13,6 +13,7 @@ import 'package:flutteradmotors/repository/user_repository.dart';
 import 'package:flutteradmotors/ui/common/dialog/error_dialog.dart';
 import 'package:flutteradmotors/ui/common/dialog/warning_dialog_view.dart';
 import 'package:flutteradmotors/ui/common/facebook_login_web_view.dart';
+import 'package:flutteradmotors/utils/global/global.dart';
 import 'package:flutteradmotors/utils/ps_progress_dialog.dart';
 import 'package:flutteradmotors/utils/utils.dart';
 import 'package:flutteradmotors/viewobject/api_status.dart';
@@ -31,6 +32,7 @@ import 'package:flutter/material.dart';
 import 'package:flutteradmotors/api/common/ps_resource.dart';
 import 'package:flutteradmotors/api/common/ps_status.dart';
 import 'package:flutteradmotors/provider/common/ps_provider.dart';
+import 'package:flutteradmotors/viewobject/user_login.dart';
 import 'package:http/http.dart' as http;
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
@@ -69,6 +71,9 @@ class UserProvider extends PsProvider {
   ShippingCity selectedCity;
   bool isCheckBoxSelect = true;
   bool isVendor = false;
+  UserLogin user_login=UserLogin();
+  bool _wait_sign=false;
+ bool get wait_sign=>_wait_sign;
   QuerySnapshot items;
   UserParameterHolder userParameterHolder =
       UserParameterHolder().getOtherUserData();
@@ -1299,17 +1304,40 @@ class UserProvider extends PsProvider {
     isVendor=!isVendor;
     notifyListeners();
   }
- Future get_data()async{
+ Future get_data(String email ,String pass)async{
     String name;
    if(isVendor) name='vendor';
    else name='user';
 
-     items= await FirebaseFirestore.instance
+    try{
+      _wait_sign=true;
+      notifyListeners();
+      items= await FirebaseFirestore.instance
         .collection(name)
         .get();
-     print(items.docs[0]['email']);
-     print("sssssssssss");
-     notifyListeners();
+      if(items.docs.length!=0){
+     items.docs.forEach((element) {
+      if( element['email']==email&&element['password']==pass){
+        print("ssssssssssssssssss");
+        user_login.id=element['id'].toString();
+        user_login.login=true;
+        user_login.isVendor=isVendor;
+        GlobalAppRepo.isVendor=isVendor;
+
+      }
+
+     });}}
+     catch(e){
+      print(e);
+      print(";;;;;;;;;;;;;");
+     }
+     finally{
+      _wait_sign=false;
+
+       notifyListeners();
+
+     }
+
 
 
 

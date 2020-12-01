@@ -3,10 +3,11 @@ import 'package:quiver/core.dart';
 import 'common/ps_object.dart';
 
 class UserLogin extends PsObject<UserLogin> {
-  UserLogin({this.id, this.login, this.user});
+  UserLogin({this.id, this.login, this.user,this.isVendor});
   String id;
-  bool login;
+  bool login=false;
   User user;
+  bool isVendor=false;
 
   @override
   bool operator ==(dynamic other) => other is UserLogin && id == other.id;

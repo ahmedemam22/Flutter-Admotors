@@ -9,6 +9,7 @@ import 'package:flutteradmotors/constant/route_paths.dart';
 import 'package:flutteradmotors/provider/user/user_provider.dart';
 import 'package:flutteradmotors/repository/user_repository.dart';
 import 'package:flutteradmotors/ui/common/dialog/error_dialog.dart';
+import 'package:flutteradmotors/ui/common/dialog/success_dialog.dart';
 import 'package:flutteradmotors/ui/common/dialog/warning_dialog_view.dart';
 import 'package:flutteradmotors/ui/common/ps_button_widget.dart';
 import 'package:flutteradmotors/utils/ps_progress_dialog.dart';
@@ -323,7 +324,7 @@ class __CardWidgetState extends State<_TextFieldAndSignInButtonWidget> {
         const SizedBox(
           height: PsDimens.space8,
         ),
-        Container(
+       widget.provider.wait_sign?Center(child: CircularProgressIndicator()): Container(
           margin: const EdgeInsets.only(
               left: PsDimens.space32, right: PsDimens.space32),
           child: PSButtonWidget(
@@ -340,7 +341,13 @@ class __CardWidgetState extends State<_TextFieldAndSignInButtonWidget> {
               } else {
                 if (Utils.checkEmailFormat(emailController.text)) {
                   if (await Utils.checkInternetConnectivity()) {
-                    await widget.provider.get_data();
+                    await widget.provider.get_data(emailController.text,passwordController.text);
+                    if(widget.provider.user_login.id==null){ callWarningDialog(context,
+                        Utils.getString(context, 'please check email and password'));}
+                    else  Navigator.pushReplacementNamed(
+                      context,
+                      RoutePaths.itemLocationList,
+                    );
 
                     /*    final UserLoginParameterHolder userLoginParameterHolder =
                       UserLoginParameterHolder(

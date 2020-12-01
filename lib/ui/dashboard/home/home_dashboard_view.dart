@@ -12,6 +12,7 @@ import 'package:flutteradmotors/provider/manufacturer/manufacturer_provider.dart
 import 'package:flutteradmotors/provider/product/item_list_from_followers_provider.dart';
 import 'package:flutteradmotors/provider/product/recent_product_provider.dart';
 import 'package:flutteradmotors/provider/product/popular_product_provider.dart';
+import 'package:flutteradmotors/provider/user/user_provider.dart';
 import 'package:flutteradmotors/repository/blog_repository.dart';
 import 'package:flutteradmotors/repository/bunner_repository.dart';
 import 'package:flutteradmotors/repository/item_location_repository.dart';
@@ -24,6 +25,7 @@ import 'package:flutteradmotors/ui/dashboard/home/blog_product_slider.dart';
 import 'package:flutteradmotors/ui/dashboard/home/home_bunner_slider.dart';
 import 'package:flutteradmotors/ui/item/item/product_horizontal_list_item.dart';
 import 'package:flutteradmotors/ui/manufacturer/item/manufacturer_horizontal_grid_item.dart';
+import 'package:flutteradmotors/utils/global/global.dart';
 import 'package:flutteradmotors/utils/utils.dart';
 import 'package:flutteradmotors/viewobject/blog.dart';
 import 'package:flutteradmotors/viewobject/common/ps_value_holder.dart';
@@ -150,6 +152,7 @@ class _HomeDashboardViewWidgetState extends State<HomeDashboardViewWidget> {
                 _manufacturerProvider.loadManufacturerList();
                 return _manufacturerProvider;
               }),
+
           ChangeNotifierProvider<RecentProductProvider>(
               lazy: false,
               create: (BuildContext context) {
@@ -233,7 +236,7 @@ class _HomeDashboardViewWidgetState extends State<HomeDashboardViewWidget> {
               opacity: widget.animationControllerForFab,
               child: ScaleTransition(
                 scale: widget.animationControllerForFab,
-                child: FloatingActionButton.extended(
+                child: GlobalAppRepo.isVendor?Container():FloatingActionButton.extended(
                   onPressed: () async {
                     print(
                         'Brightness: ${Utils.getBrightnessForAppBar(context)}');

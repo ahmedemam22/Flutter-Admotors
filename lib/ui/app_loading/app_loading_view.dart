@@ -186,12 +186,12 @@ class AppLoadingView extends StatelessWidget {
           appInfoProvider.psValueHolder.locationId != null) {
         Navigator.pushReplacementNamed(
           context,
-          RoutePaths.home,
+          RoutePaths.login_container,
         );
       } else {
         Navigator.pushReplacementNamed(
           context,
-          RoutePaths.itemLocationList,
+          RoutePaths.login_container,
         );
       }
     }
